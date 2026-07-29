@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ContentParserProject.Interfaces;
+using ContentParserProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
+using System.Text.Json;
 
 namespace ContentParserProject.Controllers
 {
@@ -7,10 +10,53 @@ namespace ContentParserProject.Controllers
     [ApiController]
     public class ParseController : ControllerBase
     {
-        [HttpPost("parse-content")]
-        public IActionResult Post()
+        private readonly IContentParser _contentParser;
+
+        public ParseController(IContentParser contentParser)
         {
-            return Ok();
+            _contentParser = contentParser;
+        }
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost("parse-content")]
+        public IActionResult Post([FromBody] ParseRequest request)
+        {
+            string decodedString = "";
+            try
+            {
+                byte[] data = Convert.FromBase64String(request.Content);
+                decodedString = System.Text.Encoding.UTF8.GetString(data);
+                ParseResponse response;
+                switch (request.Type)
+                {
+                    case ParsingContentType.INTERNAL_JSON:
+                        response = _contentParser.HandleJson(decodedString);
+                        break;
+                    case ParsingContentType.CSV:
+                        response = _contentParser.HandleCSV(decodedString);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(
+                            null,
+                            "Request type is not supported"
+                        );
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                JsonElement errorJson = JsonSerializer.SerializeToElement(
+                    new
+                    {
+                        exception = ex.GetType().Name,
+                        message = ex.Message,
+                        userDecodedData = decodedString,
+                    }
+                );
+                return BadRequest(new ParseResponse(Status.Failed, 0, errorJson));
+            }
         }
     }
 }
