@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using ContentParserProject.Interfaces;
+using ContentParserProject.Service;
 
 namespace ContentParserProject
 {
@@ -8,6 +10,7 @@ namespace ContentParserProject
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddScoped<IContentParser, ContentParser>();
             builder
                 .Services.AddControllers()
                 .AddJsonOptions(options =>
