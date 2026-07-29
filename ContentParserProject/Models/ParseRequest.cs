@@ -7,6 +7,7 @@ namespace ContentParserProject.Models
         CSV,
         INTERNAL_JSON,
     };
+
     public class ParseRequest
     {
         [EnumDataType(typeof(ParsingContentType))]

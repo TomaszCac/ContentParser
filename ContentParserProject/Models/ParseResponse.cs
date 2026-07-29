@@ -2,7 +2,12 @@
 
 namespace ContentParserProject.Models
 {
-    public enum Status { Completed, Failed }
+    public enum Status
+    {
+        Completed,
+        Failed,
+    }
+
     public class ParseResponse
     {
         public ParseResponse(Status status, int parsedItemsCount, JsonElement data)
@@ -12,8 +17,13 @@ namespace ContentParserProject.Models
             Data = data;
         }
 
+        //Status completion of parsing operation
         public Status Status { get; init; }
+
+        //Count of parsed rows in CSV or objects in INTERNAL_JSON
         public int ParsedItemsCount { get; init; }
-        public JsonElement Data { get; init;  }
+
+        //Parsed data
+        public JsonElement Data { get; init; }
     }
 }

@@ -1,13 +1,14 @@
-﻿using ContentParserProject.Interfaces;
+﻿using System.Globalization;
+using System.Text.Json;
+using ContentParserProject.Interfaces;
 using ContentParserProject.Models;
 using CsvHelper;
-using System.Globalization;
-using System.Text.Json;
 
 namespace ContentParserProject.Service
 {
     public class ContentParser : IContentParser
     {
+        //Method to parse INTERNAL_JSON
         public ParseResponse HandleJson(string data)
         {
             JsonElement element = JsonSerializer.Deserialize<JsonElement>(data);
@@ -15,6 +16,7 @@ namespace ContentParserProject.Service
             return new ParseResponse(Status.Completed, count, element);
         }
 
+        //Method to parse CSV
         public ParseResponse HandleCSV(string data)
         {
             using var reader = new StringReader(data);
@@ -28,6 +30,7 @@ namespace ContentParserProject.Service
             ;
         }
 
+        //Method counting all OBJECTS not properties or arrays
         public int CountJson(JsonElement element)
         {
             int objCount = 0;

@@ -1,8 +1,8 @@
-﻿using ContentParserProject.Interfaces;
+﻿using System.Net.Mime;
+using System.Text.Json;
+using ContentParserProject.Interfaces;
 using ContentParserProject.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Mime;
-using System.Text.Json;
 
 namespace ContentParserProject.Controllers
 {
@@ -16,6 +16,7 @@ namespace ContentParserProject.Controllers
         {
             _contentParser = contentParser;
         }
+
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -26,6 +27,7 @@ namespace ContentParserProject.Controllers
             string decodedString = "";
             try
             {
+                //Decode request data
                 byte[] data = Convert.FromBase64String(request.Content);
                 decodedString = System.Text.Encoding.UTF8.GetString(data);
                 ParseResponse response;
@@ -38,6 +40,7 @@ namespace ContentParserProject.Controllers
                         response = _contentParser.HandleCSV(decodedString);
                         break;
                     default:
+                        //Throw exception if other type of type enum just in case
                         throw new ArgumentOutOfRangeException(
                             null,
                             "Request type is not supported"
@@ -45,6 +48,7 @@ namespace ContentParserProject.Controllers
                 }
                 return Ok(response);
             }
+            //Catch all exceptions and send message about it in response
             catch (Exception ex)
             {
                 JsonElement errorJson = JsonSerializer.SerializeToElement(
