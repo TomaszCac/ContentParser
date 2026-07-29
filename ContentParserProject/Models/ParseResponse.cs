@@ -5,6 +5,13 @@ namespace ContentParserProject.Models
     public enum Status { Completed, Failed }
     public class ParseResponse
     {
+        public ParseResponse(Status status, int parsedItemsCount, JsonElement data)
+        {
+            Status = status;
+            ParsedItemsCount = parsedItemsCount;
+            Data = data;
+        }
+
         public Status Status { get; init; }
         public int ParsedItemsCount { get; init; }
         public JsonElement Data { get; init;  }
