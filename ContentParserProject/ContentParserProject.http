@@ -1,1 +1,104 @@
 @ContentParserProject_HostAddress = http://localhost:5260
+
+POST {{ContentParserProject_HostAddress}}/api/v1/parse-content
+Content-type: application/json
+{
+  "type": "INTERNAL_JSON",
+  "content": "ewogICJpZCI6IDEyMywKICAibmFtZSI6ICJUZXN0IiwKICAiYWN0aXZlIjogdHJ1ZSwKICAiYWRkcmVzcyI6IHsKICAgICJzdHJlZXQiOiAiS3dpYXRvd2EgMTUiLAogICAgImNpdHkiOiAiV2Fyc3phd2EiLAogICAgInppcENvZGUiOiAiMDAtMDAxIgogIH0sCiAgInJvbGVzIjogWwogICAgIkFkbWluIiwKICAgICJVc2VyIiwKICAgICJFZGl0b3IiCiAgXSwKICAib3JkZXJzIjogWwogICAgewogICAgICAib3JkZXJJZCI6IDEwMDEsCiAgICAgICJhbW91bnQiOiA5OS45OSwKICAgICAgIml0ZW1zIjogWwogICAgICAgIHsKICAgICAgICAgICJuYW1lIjogIkxhcHRvcCIsCiAgICAgICAgICAicXVhbnRpdHkiOiAxCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAibmFtZSI6ICJNeXN6IiwKICAgICAgICAgICJxdWFudGl0eSI6IDIKICAgICAgICB9CiAgICAgIF0KICAgIH0sCiAgICB7CiAgICAgICJvcmRlcklkIjogMTAwMiwKICAgICAgImFtb3VudCI6IDQ5LjUwLAogICAgICAiaXRlbXMiOiBbXQogICAgfQogIF0sCiAgIm1ldGFkYXRhIjogewogICAgImNyZWF0ZWRBdCI6ICIyMDI2LTA3LTI1VDEwOjMwOjAwWiIsCiAgICAidGFncyI6IFsKICAgICAgInNhbXBsZSIsCiAgICAgICJqc29uIiwKICAgICAgInRlc3QiCiAgICBdCiAgfQp9"
+}
+###
+# Encoded Json content:
+# {
+#   "id": 123,
+#   "name": "Test",
+#   "active": true,
+#   "address": {
+#     "street": "Kwiatowa 15",
+#     "city": "Warszawa",
+#     "zipCode": "00-001"
+#   },
+#   "roles": [
+#     "Admin",
+#     "User",
+#     "Editor"
+#   ],
+#   "orders": [
+#     {
+#       "orderId": 1001,
+#       "amount": 99.99,
+#       "items": [
+#         {
+#           "name": "Laptop",
+#           "quantity": 1
+#         },
+#         {
+#           "name": "Mouse",
+#           "quantity": 2
+#         }
+#       ]
+#     },
+#     {
+#       "orderId": 1002,
+#       "amount": 49.50,
+#       "items": []
+#     }
+#   ],
+#   "metadata": {
+#     "createdAt": "2026-07-25T10:30:00Z",
+#     "tags": [
+#       "sample",
+#       "json",
+#       "test"
+#     ]
+#   }
+# }
+###
+
+POST {{ContentParserProject_HostAddress}}/api/v1/parse-content
+Content-type: application/json
+{
+  "type": "CSV",
+  "content": "SWQsTmFtZSxDYXRlZ29yeSxQcmljZSxRdWFudGl0eSxBY3RpdmUsQ3JlYXRlZERhdGUKMSxMYXB0b3AgUHJvLEVsZWN0cm9uaWNzLDM0OTkuOTksNSx0cnVlLDIwMjYtMDEtMTUKMixXaXJlbGVzcyBNb3VzZSxBY2Nlc3Nvcmllcyw4OS45MCwyNSx0cnVlLDIwMjYtMDItMDEKMyxPZmZpY2UgQ2hhaXIsRnVybml0dXJlLDU5OS4wMCwxMCxmYWxzZSwyMDI2LTAyLTEyCjQsTWVjaGFuaWNhbCBLZXlib2FyZCxBY2Nlc3NvcmllcywyNDkuNTAsMTUsdHJ1ZSwyMDI2LTAzLTA1CjUsTW9uaXRvciAyNyBpbmNoLEVsZWN0cm9uaWNzLDEyOTkuOTksOCx0cnVlLDIwMjYtMDMtMTgKNixEZXNrIExhbXAsSG9tZSw3OS45OSwzMCx0cnVlLDIwMjYtMDQtMDIKNyxVU0IgQ2FibGUsQWNjZXNzb3JpZXMsMTkuOTksMTAwLHRydWUsMjAyNi0wNC0xMAo4LE5vdGVib29rIEE1LE9mZmljZSwxMi41MCwyMDAsZmFsc2UsMjAyNi0wNS0wMQo5LFNtYXJ0cGhvbmUgWCxFbGVjdHJvbmljcywyNzk5LjAwLDEyLHRydWUsMjAyNi0wNS0yMAoxMCxDb2ZmZWUgTWFjaGluZSxLaXRjaGVuLDg5OS45OSw3LHRydWUsMjAyNi0wNi0xMQ=="
+} 
+###
+# Encoded CSV content:
+# Id,Name,Category,Price,Quantity,Active,CreatedDate
+# 1,Laptop Pro,Electronics,3499.99,5,true,2026-01-15
+# 2,Wireless Mouse,Accessories,89.90,25,true,2026-02-01
+# 3,Office Chair,Furniture,599.00,10,false,2026-02-12
+# 4,Mechanical Keyboard,Accessories,249.50,15,true,2026-03-05
+# 5,Monitor 27 inch,Electronics,1299.99,8,true,2026-03-18
+# 6,Desk Lamp,Home,79.99,30,true,2026-04-02
+# 7,USB Cable,Accessories,19.99,100,true,2026-04-10
+# 8,Notebook A5,Office,12.50,200,false,2026-05-01
+# 9,Smartphone X,Electronics,2799.00,12,true,2026-05-20
+# 10,Coffee Machine,Kitchen,899.99,7,true,2026-06-11
+###
+
+POST {{ContentParserProject_HostAddress}}/api/v1/parse-content
+Content-type: application/json
+{
+  "type": "INTERNAL_JSON",
+  "content": "hbhbrtbrt"
+}
+###
+# Returns Error
+###
+POST {{ContentParserProject_HostAddress}}/api/v1/parse-content
+Content-type: application/json
+{
+  "type": "CSV",
+  "content": "hbhbrtbrt"
+}
+###
+# Returns Error
+###
+POST {{ContentParserProject_HostAddress}}/api/v1/parse-content
+Content-type: application/json
+{
+  "type": 22,
+  "content": "hbhbrtbrt"
+}
+###
+# Returns Error
+###
